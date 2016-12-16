@@ -7,3 +7,7 @@ var base_url = "http://202.116.64.108:8991/F/-?func=find-b&request=";
 var newURL = base_url+isbn;
 
 console.log(newURL);
+
+chrome.extension.sendRequest({greeting: "hello"}, function(response) { //request
+  console.log(response.farewell);           //receive response
+});

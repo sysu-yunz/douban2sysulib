@@ -2,12 +2,6 @@ chrome.extension.onMessage.addListener(
     function(request, sender, sendResponse) {
         switch (request.directive) {
         case "popup-click":
-            // execute the content script
-            chrome.tabs.executeScript(null, { // defaults to the current tab
-                file: "content.js", // script to inject into page and run in sandbox
-                allFrames: true // This injects script into iframes in the page and doesn't work before 4.0.266.0.
-            });
-
             chrome.tabs.create({
                 url:'http://www.baidu.com'
             });
@@ -20,3 +14,12 @@ chrome.extension.onMessage.addListener(
         }
     }
 );
+
+chrome.extension.onRequest.addListener(     //listen to requests
+  function(request, sender, sendResponse) {
+    console.log(sender.tab ?
+                "from a content script:" + sender.tab.url :
+                "from the extension");
+    if (request.put_isbn != null)
+      sendResponse({farewell: "got isbn"});  //send response
+  });
