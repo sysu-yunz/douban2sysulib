@@ -1,6 +1,6 @@
 {
 	"name": "douban2sysulib",
-	"version": "0.2",
+	"version": "0.0.0.1",
     "manifest_version": 2,
 	"description": "search douban book in sysu library",
 	"browser_action": {

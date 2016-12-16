@@ -1,25 +1,23 @@
-chrome.extension.onMessage.addListener(
+var isbn;
+chrome.runtime.onMessage.addListener(
     function(request, sender, sendResponse) {
-        switch (request.directive) {
-        case "popup-click":
+        if (request.directive.length == 13)
+        {
+            isbn = request.directive;
+            console.log(isbn);
+            sendResponse({});
+        }
+        else if (request.directive == "popup-click")
+        {
+            var sysu_lib_query = 'http://202.116.64.108:8991/F/-?func=find-b&find_code=WRD&request='+isbn+"&local_base=ZSU01";
             chrome.tabs.create({
-                url:'http://www.baidu.com'
+                url:sysu_lib_query
             });
-
             sendResponse({}); // sending back empty response to sender
-            break;
-        default:
-            // helps debug when request directive doesn't match
-            alert("Unmatched request of '" + request + "' from script to background.js from " + sender);
+        }
+        else
+        {
+            alert("unhandled directive!")
         }
     }
 );
-
-chrome.extension.onRequest.addListener(     //listen to requests
-  function(request, sender, sendResponse) {
-    console.log(sender.tab ?
-                "from a content script:" + sender.tab.url :
-                "from the extension");
-    if (request.put_isbn != null)
-      sendResponse({farewell: "got isbn"});  //send response
-  });
